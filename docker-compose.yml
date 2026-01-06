@@ -1,0 +1,8 @@
+services:
+  spark-dev:
+    build: .
+    container_name: spark-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+    tty: true
