@@ -1,11 +1,10 @@
-
 # Event Schema Contract (v1)
 
 This document defines the contract for product analytics events ingested by the
 Product Analytics Data Platform.
 
-All event producers (synthetic generator now; real app/stream later) must emit
-events that conform to this schema.
+All event producers (synthetic generator now; real application or streaming
+source later) must emit events that conform to this schema.
 
 ---
 
@@ -13,7 +12,9 @@ events that conform to this schema.
 
 Each event is a single JSON object (one per line in a `.jsonl` file).
 
-### Required Fields (all events)
+---
+
+## Required Fields (all events)
 
 | Field          | Type    | Description |
 |----------------|---------|-------------|
@@ -22,7 +23,7 @@ Each event is a single JSON object (one per line in a `.jsonl` file).
 | event_time     | string  | ISO 8601 UTC timestamp (e.g., `2026-01-06T14:29:45Z`). |
 | user_id        | integer | Unique user identifier. |
 | session_id     | string  | Session identifier used for sessionization. |
-| platform       | string  | Platform where event occurred: `web`, `ios`, `android`. |
+| platform       | string  | Platform where the event occurred. |
 | schema_version | integer | Schema version for this event envelope (start at `1`). |
 | properties     | object  | Event-specific attributes (flexible map). |
 
@@ -30,26 +31,36 @@ Each event is a single JSON object (one per line in a `.jsonl` file).
 
 ## Allowed Values
 
-### event_name (allowed values must be from this list)
-- signup
-- login
-- feature_use
-- purchase
-- logout
+### `event_name`
+Allowed values:
+- `signup`
+- `login`
+- `feature_use`
+- `purchase`
+- `logout`
 
-### platform (allowed)
-- web
-- ios
-- android
+### `platform`
+Allowed values:
+- `web`
+- `ios`
+- `android`
 
 ---
 
 ## `properties` (flexible event attributes)
 
-`properties` is intentionally flexible. Keys may vary by `event_name`.
-Only include fields relevant to that event. Unknown keys are permitted.
+The `properties` field is intentionally flexible.  
+Keys may vary depending on `event_name`.
 
-### Example event_name: signup
+Only include fields relevant to the specific event.  
+Unknown keys are permitted.
+
+---
+
+## Example Event
+
+### `event_name = signup`
+
 ```json
 {
   "event_id": "b1c9e2c2-4f9c-4c63-9c5b-6c4d7f2e1a91",
